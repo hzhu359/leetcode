@@ -24,6 +24,7 @@ class Solution:
             baton = max(baton + num, num)
             ret = max(ret, baton)
         return ret
+
         
 # @lc code=end
 
