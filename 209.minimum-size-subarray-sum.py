@@ -6,10 +6,45 @@
 
 # @lc code=start
 class Solution:
-    import math
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        import itertools
-        import bisect
+        # 9/27 sol
+        # keep a sliding window and extend right if you must
+            # in that case, just add on the right addition
+        # contract from left if we satisfy
+            # in that case, just subtract the leftmost
+
+        i = 0
+        j = 0
+
+        n = len(nums)
+        ret = n + 1
+
+        curr = 0
+
+        while j < n and i < n:
+            # edge case where i == j?
+
+            if curr < target:
+                # expand
+                curr += nums[j]
+                j += 1
+
+            else: # if curr >= target
+                # mark down and contract
+                ret = min(ret, j - i)
+                curr -= nums[i]
+                i += 1
+
+        while i < n and curr >= target:
+            ret = min(ret, j - i)
+            curr -= nums[i]
+            i += 1
+        
+        return 0 if ret == n + 1 else ret
+
+
+        # import itertools
+        # import bisect
 
         '''
         naive
@@ -83,36 +118,36 @@ class Solution:
         move j right until we do (increase)
         '''
 
-        i = 0
-        j = 1
-        runSum = nums[0]
-        n = len(nums)
-        res = n
+        # i = 0
+        # j = 1
+        # runSum = nums[0]
+        # n = len(nums)
+        # res = n
 
-        endRunSum = runSum
+        # endRunSum = runSum
 
-        while j < n:
-            # check valid
-            if runSum >= target: # try decreasing
-                endRunSum = runSum
-                res = min(res, j - i)
-                runSum -= nums[i]
-                i += 1
-            else: # if runSum < target, try increasing
-                runSum += nums[j]
-                j += 1
+        # while j < n:
+        #     # check valid
+        #     if runSum >= target: # try decreasing
+        #         endRunSum = runSum
+        #         res = min(res, j - i)
+        #         runSum -= nums[i]
+        #         i += 1
+        #     else: # if runSum < target, try increasing
+        #         runSum += nums[j]
+        #         j += 1
         
-        # must handle j == n (subarray of [i...n])
+        # # must handle j == n (subarray of [i...n])
 
-        while runSum >= target:
-            endRunSum = runSum
-            res = min(res, j - i)
-            endRunSum = runSum
-            runSum -= nums[i]
-            i += 1
+        # while runSum >= target:
+        #     endRunSum = runSum
+        #     res = min(res, j - i)
+        #     endRunSum = runSum
+        #     runSum -= nums[i]
+        #     i += 1
 
         
-        return res if endRunSum >= target else 0
+        # return res if endRunSum >= target else 0
         
 
 

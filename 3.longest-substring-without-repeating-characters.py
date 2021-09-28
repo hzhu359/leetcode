@@ -7,6 +7,30 @@
 # @lc code=start
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        # 9/27 sol. 
+
+        n = len(s)
+        ret = 0
+        i, j = 0, 0
+
+        stringset = set()
+
+        while i < n and j < n:
+            # expand
+            if not s[j] in stringset:
+                stringset.add(s[j])
+                j += 1
+                ret = max(j - i, ret)
+            # contract until valid
+            else:
+                while s[j] in stringset:
+                    stringset.remove(s[i])
+                    i += 1
+        
+        return ret
+        
+        # prev. sol
+
         if len(s) == 0:
             return 0
         # abcadjtn
