@@ -7,54 +7,42 @@
 # @lc code=start
 class Solution:
     def trap(self, height: List[int]) -> int:
-
         '''
-        n = len(height)
-        peak = max(height)
-        ret = 0
+        @ a position the maximum water stored is
+        the max of the max barrier to the left
+        and the max of the max barrier to the right
 
-        for y in range(1, peak + 1):
-            last = None
-            # acc = 0
-            for x in range(n):
-                if height[x] >= y:
-                    if not last is None:
-                        span = x - last - 1
-                        ret += span
-                    last = x
+        pointWater = max(fromLeft, fromRight) - curr
+
+        if we know that leftMax or the rightMax is less, we don't need to know the value of the other
         
-        return ret
+        thus update from the outside in whenever one is less
         '''
 
-        # two pointer approach - built on the min(maxL, maxR) - height rule
-        # uses the bottleneck value (i.e. checks the lowest max first)
-        # s.t. we only need to rely on left OR right
-
         n = len(height)
-        left = 0
-        right = n - 1
 
-        maxleft = 0
-        maxright = 0
+        i = 0
+        j = n - 1
+
+        maxLeft = 0
+        maxRight = 0
 
         ret = 0
 
-        while left <= right:
-            if maxleft < maxright:
-                # left boundary is minimum
-                curr = height[left]
-                ret += maxleft - curr if maxleft - curr > 0 else 0
-                maxleft = max(maxleft, curr)
-                left += 1
+        while i <= j:
+            print(ret)
+            if maxLeft < maxRight:
+                curr = height[i]
+                ret += max(0, maxLeft - curr)
+                maxLeft = max(maxLeft, curr)
+                i += 1
             else:
-                curr = height[right]
-                ret += maxright - curr if maxright - curr > 0 else 0
-                maxright = max(maxright, curr)
-                right -= 1
+                curr = height[j]
+                ret += max(0, maxRight - curr)
+                maxRight = max(maxRight, curr)
+                j -= 1
         
         return ret
-
-
 
 
 

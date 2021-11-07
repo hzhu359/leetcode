@@ -13,6 +13,38 @@
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
         import heapq
+
+        # sketch: add all list nodes to a heap and each time you pop, push on the next
+
+        ret = ListNode()
+        retTail = ret
+
+        heap = []
+        idx = 0
+        for curr in lists:
+            if curr:
+                heap.append((curr.val, idx, curr))
+                idx += 1
+        
+        heapq.heapify(heap)
+
+        while heap:
+            curr = heapq.heappop(heap)[2]
+            currNext = curr.next
+
+            retTail.next = curr
+            retTail = retTail.next
+            curr.next = None
+
+            if currNext:
+                heapq.heappush(heap, (currNext.val, idx, currNext))
+                idx += 1
+        
+        return ret.next
+
+
+        '''
+
         retHead = ListNode()
         retCurr = retHead
 
@@ -49,6 +81,7 @@ class Solution:
             insertIntoRet(curr[-1])
         
         return retHead.next
+        '''
 
 
 

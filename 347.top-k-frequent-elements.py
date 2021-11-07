@@ -5,10 +5,69 @@
 #
 
 # @lc code=start
-from collections import defaultdict
-import heapq
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        from collections import defaultdict
+        from collections import Counter
+        import heapq
+
+        ret = []
+
+        counts = Counter(nums)
+
+        heap = []
+        idx = 0
+        for key, val in counts.items():
+            heapq.heappush(heap, (-val, key, idx))
+            idx += 1
+        
+        for _ in range(k):
+            if heap:
+                ret.append(heapq.heappop(heap)[1])
+        
+        return ret
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        """
         dd = defaultdict(int)
         for num in nums:
             dd[num] += 1
@@ -27,6 +86,7 @@ class Solution:
             ret.append(heapq.heappop(heap)[1])
         
         return ret[::-1]
+        """
 
 # @lc code=end
 
